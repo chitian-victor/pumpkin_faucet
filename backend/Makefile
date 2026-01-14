@@ -46,7 +46,12 @@ balance_of_faucet:
 
 drip:
 	@echo "drip 1 token..."
-	cast send $(FAUCET_ADDRESS) "drip(uint)" $(DRIP_AMOUNT) --private-key $(USER_PRIVATE_KEY)
+	cast send $(FAUCET_ADDRESS) "drip(uint256)" $(DRIP_AMOUNT) --private-key $(USER_PRIVATE_KEY)
+
+balance_of_user:
+	@echo "balance of faucet..."
+	cast call $(TOKEN_ADDRESS) "balanceOf(address)" $(USER_ADDRESS) --private-key $(USER_PRIVATE_KEY)
+
 
 get_dripLimit:
 	@echo "get drip limit of faucet..."
