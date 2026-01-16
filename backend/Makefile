@@ -1,5 +1,5 @@
 include .env
-include .real_env # 本地开发记得注释掉这个
+include .real_env 
 	
 init:
 	@echo "init all..."
