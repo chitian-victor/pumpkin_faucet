@@ -1,5 +1,5 @@
 include .env
-include .real_env 
+include real_env 
 	
 init:
 	@echo "init all..."
