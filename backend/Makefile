@@ -1,5 +1,5 @@
 include .env
-include real_env 
+include .real_env # 只有部署到真实环境才需要，否则注释掉
 	
 init:
 	@echo "init all..."
