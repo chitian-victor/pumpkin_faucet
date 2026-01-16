@@ -51,7 +51,7 @@ export default function FaucetPage() {
       fetchContractData(provider, account);
     } catch (err: any) {
       // 解析 Ethers 错误
-      console.log("todo-hs claim error:", err);
+      console.log("claim failed, err:", err);
       if (err.reason) setError(err.reason);
       else setError("领取失败，可能未到冷却时间或水龙头余额不足");
     } finally {

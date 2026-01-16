@@ -48,6 +48,10 @@ drip:
 	@echo "drip 1 token..."
 	cast send $(FAUCET_ADDRESS) "drip(uint256)" $(DRIP_AMOUNT) --private-key $(USER_PRIVATE_KEY)
 
+last_drip_time:
+	@echo "get last drip time..."
+	cast call $(FAUCET_ADDRESS) "lastDripTime(address)(uint256)" $(USER_ADDRESS) --private-key $(USER_PRIVATE_KEY)
+
 balance_of_user:
 	@echo "balance of faucet..."
 	cast call $(TOKEN_ADDRESS) "balanceOf(address)" $(USER_ADDRESS) --private-key $(USER_PRIVATE_KEY)

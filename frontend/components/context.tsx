@@ -73,7 +73,7 @@ export function ContractContextProvider({ children }:{children: ReactNode}) {
       setDripLimit(Number(ethers.formatUnits(amt, dec))); // 格式化代币数量
       setDripInterval(Number(intv));
       setLastClaimTime(Number(lastClaim));
-
+      
       // 计算下次领取时间
       if (Number(lastClaim) > 0) {
         const nextTime = new Date((Number(lastClaim) + Number(intv)) * 1000);
