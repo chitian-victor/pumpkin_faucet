@@ -1,4 +1,5 @@
 include .env
+include .real_env # 本地开发记得注释掉这个
 	
 init:
 	@echo "init all..."
@@ -65,3 +66,16 @@ balance_of_owner_eth:
 	@echo "balance of faucet..."
 	cast balance $(OWNER_ADDRESS)
 
+
+
+# ----- 以下是在测试网上面执行的命令 -----
+deploy_token_sepolia:
+	@echo "deploy token contract to sepolia..."
+	forge create --rpc-url $SEPOLIA_RPC_URL \
+		--private-key $PRIVATE_KEY \
+		--etherscan-api-key $ETHERSCAN_API_KEY \
+		--verify \
+		src/PumpkinToken.sol:PumpkinToken \
+		--constructor-args $OWNER_ADDRESS
+
+deploy_faucet_sepolia:
