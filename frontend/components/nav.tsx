@@ -8,6 +8,7 @@ const {
     setAccount,
     setError,
     setProvider,
+    setSuccessMsg,
     fetchContractData
   } = useContractContext();
 
@@ -37,6 +38,8 @@ const {
   const disconnectWallet = () => {
     setAccount(""); // 清空账户地址
     setProvider(null); // 清空 Provider
+    setSuccessMsg(''); // 清空成功消息
+    setError(''); // 清空错误消息
     // 注意：这不会真正关闭 MetaMask 的授权，只是让 DApp 回到“未登录”状态
   };
   

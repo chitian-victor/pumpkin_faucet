@@ -27,6 +27,8 @@ type AppContextType = {
         setProvider: (provider: BrowserProvider | null) => void;
         tokenSymbol: string;
         setTokenSymbol: (symbol: string) => void;
+        successMsg: string;
+        setSuccessMsg: (msg: string) => void;
   
         fetchContractData: (_provider: BrowserProvider, _user: string) => Promise<void>;
 }
@@ -50,6 +52,7 @@ export function ContractContextProvider({ children }:{children: ReactNode}) {
   const [error, setError] = useState('');
   const [provider, setProvider] = useState<BrowserProvider | null>(null);
   const [tokenSymbol, setTokenSymbol] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
 // --- 2. 读取合约数据 ---
   const fetchContractData = async (_provider: BrowserProvider, _user: string) => {
@@ -113,6 +116,8 @@ return (
         setProvider,
         tokenSymbol,
         setTokenSymbol,
+        successMsg,
+        setSuccessMsg,
 
         fetchContractData
       }}

@@ -17,6 +17,8 @@ export default function FaucetPage() {
     setError,
     provider,
     tokenSymbol,
+    successMsg,
+    setSuccessMsg,
     lastClaimTime,
     nextClaimTime,
     fetchContractData
@@ -24,7 +26,6 @@ export default function FaucetPage() {
 
   // --- 状态定义 ---
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
   const [claimable, setClaimable] = useState(false);
 
   // --- 领取代币 ---
