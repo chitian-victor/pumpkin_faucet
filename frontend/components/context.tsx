@@ -38,6 +38,8 @@ export const useContractContext = () => useContext(ContractContext);
 
 export function ContractContextProvider({ children }:{children: ReactNode}) {
   const pumpkinFaucetAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  // 我在 Sepolia 测试网部署了该水龙头合约，地址如下：
+  const pumpkinFaucetAddressFromSepolia = "0x3810e8e876035cB1C60fE7ea1AefC8Ce15Bf3B7a"
 
   const [account, setAccount] = useState(""); 
   // --- 合约信息 ---

@@ -1,4 +1,4 @@
-include .env
+# include .env
 include .real_env # 只有部署到真实环境才需要，否则注释掉
 	
 init:
@@ -31,7 +31,7 @@ mint:
 
 balance_of_owner:
 	@echo "balance of owner..."
-	cast call $(TOKEN_ADDRESS) "balanceOf(address)" $(OWNER_ADDRESS) --private-key $(OWNER_PRIVATE_KEY)
+	cast call $(TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(OWNER_ADDRESS) --private-key $(OWNER_PRIVATE_KEY)
 
 approve_faucet:
 	@echo "approve faucet contract..."
@@ -43,7 +43,7 @@ owner_deposit:
 
 balance_of_faucet:
 	@echo "balance of faucet..."
-	cast call $(TOKEN_ADDRESS) "balanceOf(address)" $(FAUCET_ADDRESS) --private-key $(USER_PRIVATE_KEY)
+	cast call $(TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(FAUCET_ADDRESS) --private-key $(USER_PRIVATE_KEY)
 
 drip:
 	@echo "drip 1 token..."
@@ -55,7 +55,7 @@ last_drip_time:
 
 balance_of_user:
 	@echo "balance of faucet..."
-	cast call $(TOKEN_ADDRESS) "balanceOf(address)" $(USER_ADDRESS) --private-key $(USER_PRIVATE_KEY)
+	cast call $(TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(USER_ADDRESS) --private-key $(USER_PRIVATE_KEY)
 
 
 get_dripLimit:
@@ -71,11 +71,51 @@ balance_of_owner_eth:
 # ----- 以下是在测试网上面执行的命令 -----
 deploy_token_sepolia:
 	@echo "deploy token contract to sepolia..."
-	forge create --rpc-url $SEPOLIA_RPC_URL \
-		--private-key $PRIVATE_KEY \
-		--etherscan-api-key $ETHERSCAN_API_KEY \
+	forge create --broadcast \
+		--rpc-url $(SEPOLIA_RPC_URL) \
+		--private-key $(REAL_PRIVATE_KEY) \
+		--etherscan-api-key $(ETHERSCAN_API_KEY) \
 		--verify \
 		src/PumpkinToken.sol:PumpkinToken \
-		--constructor-args $OWNER_ADDRESS
+		--constructor-args $(REAL_ADDRESS)
 
 deploy_faucet_sepolia:
+	@echo "deploy faucet contract to sepolia..."
+	forge create --broadcast \
+		--rpc-url $(SEPOLIA_RPC_URL) \
+		--private-key $(REAL_PRIVATE_KEY) \
+		--etherscan-api-key $(ETHERSCAN_API_KEY) \
+		--verify \
+		src/PumpkinFaucet.sol:PumpkinFaucet \
+		--constructor-args $(REAL_TOKEN_ADDRESS) $(REAL_DRIP_INTERVAL) $(REAL_DRIP_LIMIT)
+
+mint_sepolia:
+	@echo "mint tokens to sepolia..."
+	cast send $(REAL_TOKEN_ADDRESS) "mint(uint256)" $(REAL_MINT_AMOUNT) \
+  --rpc-url $(SEPOLIA_RPC_URL) \
+  --private-key $(REAL_PRIVATE_KEY)
+
+
+approve_faucet_sepolia:
+	@echo "approve faucet contract to sepolia..."
+	cast send $(REAL_TOKEN_ADDRESS) "approve(address,uint256)" $(REAL_FAUCET_ADDRESS) $(REAL_DEPOSIT_AMOUNT) \
+	--rpc-url $(SEPOLIA_RPC_URL) \
+	--private-key $(REAL_PRIVATE_KEY)
+
+owner_deposit_sepolia:
+	@echo "deposit tokens to sepolia..."
+	cast send $(REAL_FAUCET_ADDRESS) "deposit(uint256)" $(REAL_DEPOSIT_AMOUNT) \
+	--rpc-url $(SEPOLIA_RPC_URL) \
+	--private-key $(REAL_PRIVATE_KEY)
+
+balance_of_owner_sepolia:
+	@echo "balance of owner from sepolia..."
+	cast call $(REAL_TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(REAL_ADDRESS) \
+	--rpc-url $(SEPOLIA_RPC_URL) \
+	--private-key $(REAL_PRIVATE_KEY)
+
+balance_of_faucet_sepolia:
+	@echo "balance of faucet from sepolia..."
+	cast call $(REAL_TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(REAL_FAUCET_ADDRESS) \
+	--rpc-url $(SEPOLIA_RPC_URL) \
+	--private-key $(REAL_PRIVATE_KEY)
