@@ -37,9 +37,9 @@ const ContractContext = createContext<AppContextType>({} as AppContextType);
 export const useContractContext = () => useContext(ContractContext);
 
 export function ContractContextProvider({ children }:{children: ReactNode}) {
-  const pumpkinFaucetAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  let pumpkinFaucetAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
   // 我在 Sepolia 测试网部署了该水龙头合约，地址如下：
-  const pumpkinFaucetAddressFromSepolia = "0x3810e8e876035cB1C60fE7ea1AefC8Ce15Bf3B7a"
+  pumpkinFaucetAddress = "0x48C41c2b4Bc41f14764Ba19Fd4cA3a6c21e7B650"
 
   const [account, setAccount] = useState(""); 
   // --- 合约信息 ---
@@ -68,6 +68,7 @@ export function ContractContextProvider({ children }:{children: ReactNode}) {
         faucetContract.dripInterval(),
         faucetContract.lastDripTime(_user)
       ]);
+
       // 获取代币符号
       const tokenContract = new Contract(tokenAddr, tokenABI.abi, _provider);
       const sym = await tokenContract.symbol();

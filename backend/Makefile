@@ -66,6 +66,10 @@ balance_of_owner_eth:
 	@echo "balance of faucet..."
 	cast balance $(OWNER_ADDRESS)
 
+transfer_to_user:
+	@echo "transfer 1 token to user..."
+	cast send $(TOKEN_ADDRESS) "transfer(address,uint256)" $(USER_ADDRESS) $(ETH_1) --private-key $(OWNER_PRIVATE_KEY)
+
 
 
 # ----- 以下是在测试网上面执行的命令 -----
@@ -119,3 +123,18 @@ balance_of_faucet_sepolia:
 	cast call $(REAL_TOKEN_ADDRESS) "balanceOf(address)(uint256)" $(REAL_FAUCET_ADDRESS) \
 	--rpc-url $(SEPOLIA_RPC_URL) \
 	--private-key $(REAL_PRIVATE_KEY)
+
+
+dripInterval_of_faucet_sepolia:
+	@echo "balance of faucet from sepolia..."
+	cast call $(REAL_FAUCET_ADDRESS) "dripInterval()(uint256)" \
+	--rpc-url $(SEPOLIA_RPC_URL) \
+	--private-key $(REAL_PRIVATE_KEY)
+
+
+
+
+###### === others =====
+generate_abi_bin:
+	solc --abi --bin --include-path lib  ./src/PumpkinFaucet.sol --base-path . -o ./solc_out --overwrite
+	solc --abi --bin --include-path lib  ./src/PumpkinToken.sol --base-path . -o ./solc_out --overwrite
